@@ -15,11 +15,11 @@ def read(dataset="training", path="."):
     data for the given image and the second element being a label.
     """
     if dataset is "training":
-        images_filename = os.path.join(path, 'train-images-idx3-ubyte')
-        labels_filename = os.path.join(path, 'train-labels-idx1-ubyte')
+        images_filename = os.path.join(path, 'train-images.idx3-ubyte')
+        labels_filename = os.path.join(path, 'train-labels.idx1-ubyte')
     elif dataset is "testing":
-        images_filename = os.path.join(path, 't10k-images-idx3-ubyte')
-        labels_filename = os.path.join(path, 't10k-labels-idx1-ubyte')
+        images_filename = os.path.join(path, 't10k-images.idx3-ubyte')
+        labels_filename = os.path.join(path, 't10k-labels.idx1-ubyte')
     else:
         raise ValueError("dataset must be 'testing' or 'training'")
 
@@ -30,11 +30,9 @@ def read(dataset="training", path="."):
 
     with open(images_filename, 'rb') as f:
         magic, count, rows, cols = struct.unpack(">IIII", f.read(16))
-        images = np.fromfile(f, dtype=np.uint8).reshape(len(labels), rows, cols)
+        images = np.fromfile(f, dtype=np.uint8).reshape(len(labels), rows * cols)
 
-    # Create an iterator which returns each image in turn
-    for i in range(len(labels)):
-        yield (images[i], labels[i])
+    return images, labels
 
 
 def show(image):
