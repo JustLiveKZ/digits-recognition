@@ -26,11 +26,11 @@ def read(dataset="training", path="."):
     # Load everything in some numpy arrays
     with open(labels_filename, 'rb') as f:
         magic, count = struct.unpack(">II", f.read(8))
-        labels = np.fromfile(f, dtype=np.uint8)
+        labels = np.fromfile(f, dtype=np.uint8).reshape((count, 1))
 
     with open(images_filename, 'rb') as f:
         magic, count, rows, cols = struct.unpack(">IIII", f.read(16))
-        images = np.fromfile(f, dtype=np.uint8).reshape(len(labels), rows * cols)
+        images = np.fromfile(f, dtype=np.uint8).reshape((count, rows * cols))
 
     return images, labels
 
