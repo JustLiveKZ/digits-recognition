@@ -5,7 +5,6 @@ testing_examples_count = 10000
 image_width = 28
 image_height = 28
 features_number = image_width * image_height
-features_value_range = (0, 255)
 classifiers_number = 10
 theta_filename = 'theta.txt'
 
@@ -32,5 +31,3 @@ http://docs.scipy.org/doc/scipy/reference/optimize.html
 """
 optimization_function = scipy.optimize.fmin_bfgs
 max_iterations = 100
-
-

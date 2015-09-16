@@ -10,7 +10,7 @@ def train(images, labels):
         np.fromfile(theta_filename, sep='\n').reshape((classifiers_number, features_number + 1))
         print 'There is already exists "%s" that contains trained classifiers' % theta_filename
         print 'If you want to re-train classifiers rename or delete "%s"' % theta_filename
-    except (IOError, ValueError) as e:
+    except (IOError, ValueError):
         print 'File not found or corrupted. Training will recover it'
         # Adding fake feature
         images = np.concatenate((np.ones((images.shape[0], 1)), images), axis=1)
@@ -19,9 +19,6 @@ def train(images, labels):
             print "Training classifier for digit %d" % i
             mapped_labels = np.array(map(lambda label: int(label == i), labels)) \
                 .reshape((training_examples_count, 1))
-            # Pass cost function as positional parameter
-            # because in some minimization functions
-            # it is called "f" and in others "func"
             theta = optimization_function(f=compute_cost,
                                           x0=all_theta[i],
                                           args=(images, mapped_labels, lmbda),

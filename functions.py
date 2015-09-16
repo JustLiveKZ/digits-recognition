@@ -7,9 +7,10 @@ def sigmoid(z):
     try:
         return 1. / (1. + math.exp(-z))
     except OverflowError:
-        # OverflowError is raised in z is very big negative value
-        # so math.exp(-z) evaluates as very big positive value
-        # In this case return very small positive value that close to 0.0
+        # OverflowError is raised if z is a very big negative number
+        # so math.exp(-z) evaluates as a very big positive number
+        # In this case expression tends to zero so function should return
+        # small value close to zero
         return 1e-9
 
 
@@ -26,7 +27,7 @@ def log(z):
 def compute_cost(theta, x, y, lmbda):
     """
     J(theta) = (-1 / m) * sum_for_i=1_to_m(y[i] * log(h(x[i])) + (1 - y[i]) * log(1 - h(x[i]))) +
-    + lambda / (2 * m) * som_for_j=1_to_n(theta[j] ** 2)
+    + lambda / (2 * m) * sum_for_j=1_to_n(theta[j] ** 2)
 
     where:
     m - count of training examples
@@ -49,8 +50,8 @@ def compute_gradient(theta, x, y, lmbda):
     gradient[0] = (1 / m) * sum_for_i=1_to_m((h(x[i]) - y[i]) * x[i,j])
     gradient[j] = (1 / m) * sum_for_i=1_to_m((h(x[i]) - y[i]) * x[i,j]) +
     + (lambda / m) * theta(j) for j = 1..n
-    where:
 
+    where:
     m - count of training examples
     x[i] - i-th training example
     h(x[i]) - output for i-th training example produced by algorithm
